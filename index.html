@@ -124,6 +124,23 @@
     .side-bar-left { left: 0; }
     .side-bar-right { right: 0; }
 
+    /* === 히어로 이미지: 강한 지속 애니메이션 === */
+    .hero-section {
+      width: min(1920px, 100%);
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .hero-img-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      will-change: transform;
+    }
+
     /* === 이미지 섹션 === */
     .static-section {
       width: min(1920px, 100%);
@@ -169,7 +186,11 @@
 
   <!-- 정적 이미지 섹션 (nav 아래부터) -->
   <div style="padding-top:84px;">
-    <section class="static-section"><img src="images/hero_video.jpg" alt="젤피부과 메인" /></section>
+    <section class="hero-section" id="heroSection">
+      <div class="hero-img-wrap">
+        <img src="images/hero_video.jpg" alt="젤피부과 메인" id="heroImg" />
+      </div>
+    </section>
   </div>
   <section class="static-section"><img src="images/main_pinnacle.jpg" alt="젤피부과 pinnacle 장비" loading="lazy" /></section>
   <section class="static-section"><img src="images/main_programs.jpg" alt="젤피부과 프로그램" loading="lazy" /></section>
@@ -192,6 +213,47 @@
        =========================== */
     window.addEventListener("load", () => {
       gsap.to("#loader", { autoAlpha: 0, duration: 0.5, ease: "power2.out", delay: 0.3 });
+    });
+
+    /* ===========================
+       히어로 이미지: 강한 지속 애니메이션 (대관람차급)
+       =========================== */
+    const heroImg = document.getElementById("heroImg");
+
+    // 1. 느린 좌→우→좌 패닝 (끊임없이)
+    gsap.to(heroImg, {
+      xPercent: 3,
+      duration: 8,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true
+    });
+
+    // 2. 동시에 줌인/줌아웃 (호흡하는 느낌)
+    gsap.to(heroImg, {
+      scale: 1.12,
+      duration: 10,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true
+    });
+
+    // 3. 미세한 회전 (살아있는 느낌)
+    gsap.to(heroImg, {
+      rotate: 0.8,
+      duration: 12,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true
+    });
+
+    // 4. 밝기 맥동 (빛이 숨쉬는 느낌)
+    gsap.to(heroImg, {
+      filter: "brightness(1.15)",
+      duration: 4,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true
     });
 
     /* ===========================

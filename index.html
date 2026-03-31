@@ -110,98 +110,24 @@
     .nav a:hover::after,
     .nav a.active::after { width: 100%; }
 
-    /* === 히어로: 풀스크린 애니메이션 영역 === */
-    .hero {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      background: #040811;
-    }
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: url("images/hero_video.jpg") center center / cover no-repeat;
-      will-change: transform;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 50% 40%, rgba(201,169,110,.15), transparent 50%),
-        linear-gradient(180deg, rgba(4,8,17,.3) 0%, rgba(4,8,17,.6) 100%);
-      z-index: 1;
+    /* === 좌우 골드 BAR === */
+    .side-bar-left,
+    .side-bar-right {
+      position: fixed;
+      top: 84px;
+      bottom: 0;
+      width: 3px;
+      z-index: 998;
       pointer-events: none;
+      background: linear-gradient(180deg, rgba(201,169,110,.4), rgba(201,169,110,.1) 50%, rgba(201,169,110,.4));
     }
-
-    .hero-intro {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      display: grid;
-      place-items: center;
-      pointer-events: none;
-    }
-    .hero-intro-text { text-align: center; }
-    .hero-intro-text h1 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(48px, 7vw, 110px);
-      letter-spacing: .12em;
-      color: var(--gold);
-      text-shadow: 0 0 80px rgba(201,169,110,.5), 0 0 160px rgba(201,169,110,.2);
-      opacity: 0;
-    }
-    .hero-intro-text p {
-      font-size: clamp(12px, 1.3vw, 20px);
-      letter-spacing: .4em;
-      color: var(--muted);
-      margin-top: 20px;
-      opacity: 0;
-    }
-    .hero-intro-line {
-      width: 0;
-      height: 1px;
-      background: var(--gold);
-      margin: 28px auto 0;
-    }
-
-    .scroll-mark {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
-      text-align: center;
-      color: rgba(255,255,255,.6);
-      font-size: 11px;
-      letter-spacing: .22em;
-    }
-    .scroll-line {
-      margin: 10px auto 0;
-      width: 1px;
-      height: 56px;
-      background: rgba(201,169,110,.25);
-      overflow: hidden;
-      position: relative;
-    }
-    .scroll-line::after {
-      content: "";
-      position: absolute;
-      width: 1px;
-      height: 24px;
-      left: 0;
-      top: -24px;
-      background: var(--gold);
-      animation: scrollBar 1.9s ease-in-out infinite;
-    }
-    @keyframes scrollBar { to { top: 56px; } }
+    .side-bar-left { left: 0; }
+    .side-bar-right { right: 0; }
 
     /* === 이미지 섹션 === */
     .static-section {
       width: min(1920px, 100%);
       margin: 0 auto;
-      overflow: hidden;
     }
     .static-section img {
       width: 100%;
@@ -237,21 +163,14 @@
     </div>
   </nav>
 
-  <!-- 1단: 풀스크린 애니메이션 히어로 -->
-  <header class="hero" id="hero">
-    <div class="hero-bg" id="heroBg"></div>
-    <div class="hero-intro" id="heroIntro">
-      <div class="hero-intro-text">
-        <h1 id="introTitle">ZELL</h1>
-        <div class="hero-intro-line" id="introLine"></div>
-        <p id="introSub">PINNACLE DEVICE EXHIBITION</p>
-      </div>
-    </div>
-    <div class="scroll-mark">SCROLL<div class="scroll-line"></div></div>
-  </header>
+  <!-- 좌우 골드 BAR -->
+  <div class="side-bar-left"></div>
+  <div class="side-bar-right"></div>
 
-  <!-- 2단: 정적 이미지 (애니메이션 없음, 깨짐 불가) -->
-  <section class="static-section"><img src="images/hero_video.jpg" alt="젤피부과 메인" /></section>
+  <!-- 정적 이미지 섹션 (nav 아래부터) -->
+  <div style="padding-top:84px;">
+    <section class="static-section"><img src="images/hero_video.jpg" alt="젤피부과 메인" /></section>
+  </div>
   <section class="static-section"><img src="images/main_pinnacle.jpg" alt="젤피부과 pinnacle 장비" loading="lazy" /></section>
   <section class="static-section"><img src="images/main_programs.jpg" alt="젤피부과 프로그램" loading="lazy" /></section>
   <section class="static-section"><img src="images/main_laser.jpg" alt="젤피부과 레이저 장비" loading="lazy" /></section>
@@ -269,68 +188,31 @@
     gsap.registerPlugin(ScrollTrigger);
 
     /* ===========================
-       로더 → 히어로 시네마틱 인트로
+       로더 페이드아웃
        =========================== */
-    const tl = gsap.timeline();
-
-    // 로더 페이드아웃
-    tl.to("#loader", { autoAlpha: 0, duration: 0.5, ease: "power2.out", delay: 0.3 });
-
-    // 배경: 느린 줌인
-    tl.from("#heroBg", { scale: 1.2, duration: 4, ease: "power2.out" }, 0.5);
-
-    // 텍스트 등장
-    tl.to("#introTitle", { opacity: 1, duration: 1.5, ease: "power3.out" }, 1.0);
-    tl.fromTo("#introTitle", { y: 50, letterSpacing: "0.05em" }, { y: 0, letterSpacing: "0.12em" }, 1.0);
-
-    // 골드 라인 확장
-    tl.to("#introLine", { width: "clamp(100px, 18vw, 280px)", duration: 0.8, ease: "power2.inOut" }, 2.0);
-
-    // 서브 텍스트 등장
-    tl.to("#introSub", { opacity: 1, duration: 0.8, ease: "power2.out" }, 2.4);
-
-    // 텍스트 글로우 강화 (포즈)
-    tl.to("#introTitle", {
-      textShadow: "0 0 100px rgba(201,169,110,.8), 0 0 200px rgba(201,169,110,.4), 0 0 400px rgba(201,169,110,.15)",
-      duration: 0.8, ease: "power2.in"
-    }, 3.2);
-
-    // 배경 계속 느린 줌
-    gsap.to("#heroBg", {
-      scale: 1.08,
-      duration: 20,
-      ease: "sine.inOut",
-      repeat: -1,
-      yoyo: true,
-      delay: 4
-    });
-
-    // 스크롤 시 히어로 패럴랙스
-    gsap.to("#heroBg", {
-      y: 150,
-      ease: "none",
-      scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
+    window.addEventListener("load", () => {
+      gsap.to("#loader", { autoAlpha: 0, duration: 0.5, ease: "power2.out", delay: 0.3 });
     });
 
     /* ===========================
-       이미지 섹션: 좌→우 1칸씩 슬라이드 등장 → 정적 고정
+       이미지 섹션: 통째로 좌→우 슬라이드 등장 → 정적 고정
        =========================== */
-    gsap.utils.toArray(".static-section").forEach((section) => {
-      const img = section.querySelector("img");
+    gsap.utils.toArray(".static-section").forEach((section, i) => {
+      const fromLeft = i % 2 === 0;
 
-      gsap.fromTo(img,
-        { xPercent: -100, opacity: 0 },
+      gsap.fromTo(section,
+        { x: fromLeft ? -300 : 300, opacity: 0 },
         {
-          xPercent: 0,
+          x: 0,
           opacity: 1,
-          duration: 1.0,
+          duration: 1.2,
           ease: "power3.out",
           scrollTrigger: {
             trigger: section,
-            start: "top 85%",
+            start: "top 88%",
             toggleActions: "play none none none"
           },
-          onComplete: () => gsap.set(img, { clearProps: "all" })
+          onComplete: () => gsap.set(section, { clearProps: "all" })
         }
       );
     });

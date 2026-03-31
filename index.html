@@ -7,7 +7,7 @@
   <meta name="description" content="젤피부과 - Pinnacle Device Exhibition Experience. 프리미엄 피부과 시술과 최첨단 장비를 경험하세요." />
   <meta property="og:title" content="젤피부과 | ZELL DERMATOLOGY" />
   <meta property="og:description" content="프리미엄 피부과 시술과 최첨단 장비를 경험하세요." />
-  <meta property="og:image" content="images/main_hero.jpg" />
+  <meta property="og:image" content="images/hero_video.jpg" />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -110,141 +110,100 @@
     .nav a:hover::after,
     .nav a.active::after { width: 100%; }
 
-    /* === 히어로 === */
+    /* === 히어로: 풀스크린 애니메이션 영역 === */
     .hero {
       position: relative;
-      width: min(1920px, 100%);
-      margin: 0 auto;
-      background: var(--bg);
-      padding-top: 84px;
-    }
-    .hero img {
       width: 100%;
-      height: auto;
-      display: block;
+      height: 100vh;
+      overflow: hidden;
+      background: #040811;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url("images/hero_video.jpg") center center / cover no-repeat;
+      will-change: transform;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(201,169,110,.15), transparent 50%),
+        linear-gradient(180deg, rgba(4,8,17,.3) 0%, rgba(4,8,17,.6) 100%);
+      z-index: 1;
+      pointer-events: none;
     }
 
-    /* 히어로 인트로 텍스트 오버레이 */
     .hero-intro {
       position: absolute;
       inset: 0;
-      top: 84px;
-      z-index: 10;
+      z-index: 2;
       display: grid;
       place-items: center;
-      background: rgba(4, 7, 15, 0.75);
       pointer-events: none;
     }
-    .hero-intro-text {
-      text-align: center;
-    }
+    .hero-intro-text { text-align: center; }
     .hero-intro-text h1 {
       font-family: "Playfair Display", serif;
-      font-size: clamp(48px, 6vw, 96px);
+      font-size: clamp(48px, 7vw, 110px);
       letter-spacing: .12em;
       color: var(--gold);
       text-shadow: 0 0 80px rgba(201,169,110,.5), 0 0 160px rgba(201,169,110,.2);
       opacity: 0;
     }
     .hero-intro-text p {
-      font-size: clamp(12px, 1.2vw, 18px);
+      font-size: clamp(12px, 1.3vw, 20px);
       letter-spacing: .4em;
       color: var(--muted);
-      margin-top: 16px;
+      margin-top: 20px;
       opacity: 0;
     }
     .hero-intro-line {
       width: 0;
       height: 1px;
       background: var(--gold);
-      margin: 24px auto 0;
+      margin: 28px auto 0;
     }
 
-    /* 히어로 시네마틱 효과 레이어 */
-    .hero-fx {
+    .scroll-mark {
       position: absolute;
-      inset: 0;
-      top: 84px;
-      pointer-events: none;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      text-align: center;
+      color: rgba(255,255,255,.6);
+      font-size: 11px;
+      letter-spacing: .22em;
+    }
+    .scroll-line {
+      margin: 10px auto 0;
+      width: 1px;
+      height: 56px;
+      background: rgba(201,169,110,.25);
       overflow: hidden;
+      position: relative;
     }
-
-    /* 골드 라이트 스윕 */
-    .hero-light-sweep {
+    .scroll-line::after {
+      content: "";
       position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        105deg,
-        transparent 0%, transparent 30%,
-        rgba(201,169,110,.12) 38%,
-        rgba(255,255,255,.08) 40%,
-        rgba(201,169,110,.12) 42%,
-        transparent 50%, transparent 100%
-      );
-      background-size: 300% 100%;
-      animation: heroSweep 6s ease-in-out infinite;
-      opacity: 0;
+      width: 1px;
+      height: 24px;
+      left: 0;
+      top: -24px;
+      background: var(--gold);
+      animation: scrollBar 1.9s ease-in-out infinite;
     }
-    @keyframes heroSweep {
-      0% { background-position: 200% 0; }
-      100% { background-position: -100% 0; }
-    }
-
-    /* 쇼케이스 골드 글로우 펄스 */
-    .hero-glow {
-      position: absolute;
-      top: 25%;
-      left: 18%;
-      width: 60%;
-      height: 10%;
-      background: radial-gradient(ellipse at center, rgba(201,169,110,.25), transparent 70%);
-      filter: blur(25px);
-      animation: glowPulse 3.5s ease-in-out infinite;
-      opacity: 0;
-    }
-    @keyframes glowPulse {
-      0%, 100% { opacity: 0.3; transform: scaleX(0.96); }
-      50% { opacity: 1; transform: scaleX(1.04); }
-    }
-
-    /* 장비 반짝임 */
-    .hero-sparkle {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,.85), transparent 60%);
-      opacity: 0;
-    }
-
-    /* 유리 반사 */
-    .hero-glass {
-      position: absolute;
-      top: 28%;
-      left: 24%;
-      width: 48%;
-      height: 45%;
-      background: linear-gradient(
-        155deg,
-        transparent 0%, rgba(255,255,255,.02) 40%,
-        rgba(255,255,255,.05) 50%,
-        rgba(255,255,255,.02) 60%, transparent 100%
-      );
-      animation: glassShift 9s ease-in-out infinite;
-      opacity: 0;
-    }
-    @keyframes glassShift {
-      0%, 100% { transform: translateX(-8px) skewX(-1.5deg); }
-      50% { transform: translateX(8px) skewX(1.5deg); }
-    }
+    @keyframes scrollBar { to { top: 56px; } }
 
     /* === 이미지 섹션 === */
-    .image-section {
-      position: relative;
+    .static-section {
       width: min(1920px, 100%);
       margin: 0 auto;
-      perspective: 1200px;
       overflow: hidden;
     }
-    .image-section img {
+    .static-section img {
       width: 100%;
       height: auto;
       display: block;
@@ -278,40 +237,29 @@
     </div>
   </nav>
 
+  <!-- 1단: 풀스크린 애니메이션 히어로 -->
   <header class="hero" id="hero">
-    <img src="images/hero_video.jpg" alt="젤피부과 메인" />
-
-    <!-- 인트로 텍스트: 등장 → 포즈 → 사라짐 -->
+    <div class="hero-bg" id="heroBg"></div>
     <div class="hero-intro" id="heroIntro">
       <div class="hero-intro-text">
-        <h1 id="introTitle">ZELL DERMATOLOGY</h1>
+        <h1 id="introTitle">ZELL</h1>
         <div class="hero-intro-line" id="introLine"></div>
-        <p id="introSub">PINNACLE DEVICE EXHIBITION EXPERIENCE</p>
+        <p id="introSub">PINNACLE DEVICE EXHIBITION</p>
       </div>
     </div>
-
-    <!-- 시네마틱 효과 레이어 -->
-    <div class="hero-fx" id="heroFx">
-      <div class="hero-light-sweep" id="fxSweep"></div>
-      <div class="hero-glow" id="fxGlow"></div>
-      <div class="hero-glass" id="fxGlass"></div>
-      <!-- 장비 반짝임 포인트 -->
-      <div class="hero-sparkle" id="sp1" style="top:42%;left:35%;width:4px;height:4px;"></div>
-      <div class="hero-sparkle" id="sp2" style="top:38%;left:42%;width:3px;height:3px;"></div>
-      <div class="hero-sparkle" id="sp3" style="top:50%;left:48%;width:5px;height:5px;"></div>
-      <div class="hero-sparkle" id="sp4" style="top:44%;left:30%;width:3px;height:3px;"></div>
-      <div class="hero-sparkle" id="sp5" style="top:36%;left:55%;width:4px;height:4px;"></div>
-    </div>
+    <div class="scroll-mark">SCROLL<div class="scroll-line"></div></div>
   </header>
 
-  <section class="image-section fx"><img src="images/main_pinnacle.jpg" alt="젤피부과 pinnacle 장비" loading="lazy" /></section>
-  <section class="image-section fx"><img src="images/main_programs.jpg" alt="젤피부과 프로그램" loading="lazy" /></section>
-  <section class="image-section fx"><img src="images/main_laser.jpg" alt="젤피부과 레이저 장비" loading="lazy" /></section>
-  <section class="image-section fx"><img src="images/main_concept.jpg" alt="젤피부과 컨셉" loading="lazy" /></section>
-  <section class="image-section fx"><img src="images/main_before.jpg" alt="젤피부과 전후 사례" loading="lazy" /></section>
-  <section class="image-section fx"><img src="images/main_info.jpg" alt="젤피부과 정보" loading="lazy" /></section>
-  <section class="image-section fx"><img src="images/main_map.jpg" alt="젤피부과 위치" loading="lazy" /></section>
-  <section class="image-section fx"><img src="images/main_footer.jpg" alt="젤피부과 푸터" loading="lazy" /></section>
+  <!-- 2단: 정적 이미지 (애니메이션 없음, 깨짐 불가) -->
+  <section class="static-section"><img src="images/hero_video.jpg" alt="젤피부과 메인" /></section>
+  <section class="static-section"><img src="images/main_pinnacle.jpg" alt="젤피부과 pinnacle 장비" loading="lazy" /></section>
+  <section class="static-section"><img src="images/main_programs.jpg" alt="젤피부과 프로그램" loading="lazy" /></section>
+  <section class="static-section"><img src="images/main_laser.jpg" alt="젤피부과 레이저 장비" loading="lazy" /></section>
+  <section class="static-section"><img src="images/main_concept.jpg" alt="젤피부과 컨셉" loading="lazy" /></section>
+  <section class="static-section"><img src="images/main_before.jpg" alt="젤피부과 전후 사례" loading="lazy" /></section>
+  <section class="static-section"><img src="images/main_info.jpg" alt="젤피부과 정보" loading="lazy" /></section>
+  <section class="static-section"><img src="images/main_map.jpg" alt="젤피부과 위치" loading="lazy" /></section>
+  <section class="static-section"><img src="images/main_footer.jpg" alt="젤피부과 푸터" loading="lazy" /></section>
 
   <footer>© ZELL DERMATOLOGY CLINIC PRESENTATION</footer>
 
@@ -321,96 +269,62 @@
     gsap.registerPlugin(ScrollTrigger);
 
     /* ===========================
-       1. 로더 → 히어로 인트로 시퀀스
+       로더 → 히어로 시네마틱 인트로
        =========================== */
     const tl = gsap.timeline();
 
     // 로더 페이드아웃
     tl.to("#loader", { autoAlpha: 0, duration: 0.5, ease: "power2.out", delay: 0.3 });
 
-    // 히어로 이미지: 페이드인 (줌 없음 = 깨짐 없음)
-    tl.from("#hero img", {
-      opacity: 0, duration: 2, ease: "power2.out",
-      onComplete: () => gsap.set("#hero img", { clearProps: "all" })
-    }, 0.6);
+    // 배경: 느린 줌인
+    tl.from("#heroBg", { scale: 1.2, duration: 4, ease: "power2.out" }, 0.5);
 
-    // 인트로 텍스트 등장
-    tl.to("#introTitle", {
-      opacity: 1, y: 0, duration: 1.2, ease: "power3.out"
-    }, 0.8);
-    tl.fromTo("#introTitle", { y: 40 }, { y: 0 }, 0.8);
+    // 텍스트 등장
+    tl.to("#introTitle", { opacity: 1, duration: 1.5, ease: "power3.out" }, 1.0);
+    tl.fromTo("#introTitle", { y: 50, letterSpacing: "0.05em" }, { y: 0, letterSpacing: "0.12em" }, 1.0);
 
     // 골드 라인 확장
-    tl.to("#introLine", {
-      width: "clamp(120px, 20vw, 320px)", duration: 0.8, ease: "power2.inOut"
-    }, 1.6);
+    tl.to("#introLine", { width: "clamp(100px, 18vw, 280px)", duration: 0.8, ease: "power2.inOut" }, 2.0);
 
     // 서브 텍스트 등장
-    tl.to("#introSub", {
-      opacity: 1, duration: 0.8, ease: "power2.out"
-    }, 2.0);
+    tl.to("#introSub", { opacity: 1, duration: 0.8, ease: "power2.out" }, 2.4);
 
-    // 텍스트 글로우 강화 (포즈 순간)
+    // 텍스트 글로우 강화 (포즈)
     tl.to("#introTitle", {
-      textShadow: "0 0 120px rgba(201,169,110,.7), 0 0 240px rgba(201,169,110,.3)",
-      duration: 0.6, ease: "power2.in"
-    }, 2.8);
+      textShadow: "0 0 100px rgba(201,169,110,.8), 0 0 200px rgba(201,169,110,.4), 0 0 400px rgba(201,169,110,.15)",
+      duration: 0.8, ease: "power2.in"
+    }, 3.2);
 
-    // 인트로 전체 페이드아웃
-    tl.to("#heroIntro", {
-      autoAlpha: 0, duration: 1.0, ease: "power2.inOut"
-    }, 3.8);
+    // 배경 계속 느린 줌
+    gsap.to("#heroBg", {
+      scale: 1.08,
+      duration: 20,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+      delay: 4
+    });
 
-    // 시네마틱 효과 레이어 등장
-    tl.to("#fxSweep", { opacity: 1, duration: 0.6 }, 4.2);
-    tl.to("#fxGlow", { opacity: 1, duration: 0.6 }, 4.2);
-    tl.to("#fxGlass", { opacity: 1, duration: 0.6 }, 4.4);
-
-    // 장비 반짝임 순차 등장
-    const sparkles = ["#sp1","#sp2","#sp3","#sp4","#sp5"];
-    sparkles.forEach((sp, i) => {
-      gsap.to(sp, {
-        opacity: 1,
-        duration: 0.4,
-        delay: 4.6 + i * 0.3,
-        ease: "power2.out",
-        onComplete: () => {
-          gsap.to(sp, {
-            opacity: 0, scale: 0.5, duration: 1.2,
-            repeat: -1, yoyo: true,
-            ease: "sine.inOut",
-            delay: gsap.utils.random(0, 2)
-          });
-          gsap.to(sp, {
-            opacity: 1, scale: 1.2, duration: gsap.utils.random(1.5, 3),
-            repeat: -1, yoyo: true,
-            ease: "sine.inOut"
-          });
-        }
-      });
+    // 스크롤 시 히어로 패럴랙스
+    gsap.to("#heroBg", {
+      y: 150,
+      ease: "none",
+      scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
     });
 
     /* ===========================
-       2. 이미지 섹션: 좌/우 교대 3D 로테이션 → 정적 고정
+       이미지 섹션: 좌→우 1칸씩 슬라이드 등장 → 정적 고정
        =========================== */
-    gsap.utils.toArray(".fx").forEach((section, i) => {
+    gsap.utils.toArray(".static-section").forEach((section) => {
       const img = section.querySelector("img");
-      const fromLeft = i % 2 === 0;
 
-      // 이미지에 3D rotateY 적용 (깨짐 없는 원근감 틸트)
       gsap.fromTo(img,
+        { xPercent: -100, opacity: 0 },
         {
-          opacity: 0,
-          rotateY: fromLeft ? -45 : 45,
-          x: fromLeft ? -80 : 80,
-          transformOrigin: fromLeft ? "left center" : "right center"
-        },
-        {
+          xPercent: 0,
           opacity: 1,
-          rotateY: 0,
-          x: 0,
-          duration: 1.4,
-          ease: "power4.out",
+          duration: 1.0,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: section,
             start: "top 85%",
@@ -422,7 +336,7 @@
     });
 
     /* ===========================
-       3. 네비게이션 스크롤 숨김
+       네비게이션 스크롤 숨김
        =========================== */
     let lastY = 0;
     const nav = document.getElementById("nav");

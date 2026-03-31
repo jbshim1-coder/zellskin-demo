@@ -115,7 +115,6 @@
       position: relative;
       width: min(1920px, 100%);
       margin: 0 auto;
-      overflow: hidden;
       background: var(--bg);
       padding-top: 84px;
     }
@@ -327,8 +326,11 @@
     // 로더 페이드아웃
     tl.to("#loader", { autoAlpha: 0, duration: 0.5, ease: "power2.out", delay: 0.3 });
 
-    // 히어로 이미지: 강한 줌인에서 시작 → 원래 크기로
-    tl.from("#hero img", { scale: 1.15, opacity: 0.7, duration: 3, ease: "power2.out" }, 0.6);
+    // 히어로 이미지: 페이드인 (줌 없음 = 깨짐 없음)
+    tl.from("#hero img", {
+      opacity: 0, duration: 2, ease: "power2.out",
+      onComplete: () => gsap.set("#hero img", { clearProps: "all" })
+    }, 0.6);
 
     // 인트로 텍스트 등장
     tl.to("#introTitle", {
@@ -387,28 +389,29 @@
     });
 
     /* ===========================
-       2. 이미지 섹션: 좌/우 슬라이드 + 패럴랙스
+       2. 이미지 섹션: 좌/우 교대 슬라이드 + 로테이션 → 정적 고정
        =========================== */
     gsap.utils.toArray(".fx").forEach((section, i) => {
-      const img = section.querySelector("img");
       const fromLeft = i % 2 === 0;
 
-      // 섹션 등장: 좌/우 교대로 슬라이드인 + 페이드 (회전 없음 = 깨짐 없음)
       gsap.fromTo(section,
         {
           opacity: 0,
-          x: fromLeft ? -100 : 100
+          x: fromLeft ? -200 : 200,
+          rotate: fromLeft ? -6 : 6
         },
         {
           opacity: 1,
           x: 0,
-          duration: 1.2,
-          ease: "power3.out",
+          rotate: 0,
+          duration: 1.4,
+          ease: "power4.out",
           scrollTrigger: {
             trigger: section,
             start: "top 88%",
             toggleActions: "play none none none"
-          }
+          },
+          onComplete: () => gsap.set(section, { clearProps: "all" })
         }
       );
     });

@@ -237,17 +237,18 @@
       50% { transform: translateX(8px) skewX(1.5deg); }
     }
 
-    /* === 이미지 섹션 === */
+    /* === 이미지 섹션: 패럴랙스 + 리빌 === */
     .image-section {
       position: relative;
       width: min(1920px, 100%);
       margin: 0 auto;
-      background: var(--bg);
+      overflow: hidden;
     }
     .image-section img {
       width: 100%;
       height: auto;
       display: block;
+      will-change: transform;
     }
 
     footer {
@@ -389,19 +390,37 @@
     });
 
     /* ===========================
-       2. 이미지 섹션: 좌/우 교대 로테이션 등장
+       2. 이미지 섹션: 패럴랙스 + 부드러운 리빌
        =========================== */
     gsap.utils.toArray(".fx").forEach((section, i) => {
-      const rotateDir = i % 2 === 0 ? -2 : 2;
+      const img = section.querySelector("img");
+
+      // 섹션 등장: 부드러운 페이드 + 약간의 좌우 로테이션
+      const rotateDir = i % 2 === 0 ? -1.5 : 1.5;
       gsap.fromTo(section,
-        { opacity: 0, y: 50, rotate: rotateDir },
+        { opacity: 0, y: 40, rotate: rotateDir },
         {
           opacity: 1, y: 0, rotate: 0,
-          duration: 1, ease: "power3.out",
+          duration: 1.2, ease: "power3.out",
           scrollTrigger: {
             trigger: section,
-            start: "top 85%",
+            start: "top 90%",
             toggleActions: "play none none none"
+          }
+        }
+      );
+
+      // 이미지 패럴랙스: 스크롤에 따라 이미지가 천천히 이동 (깨짐 없음)
+      gsap.fromTo(img,
+        { yPercent: -3 },
+        {
+          yPercent: 3,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true
           }
         }
       );

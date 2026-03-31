@@ -50,7 +50,7 @@
       display: grid;
       place-items: center;
       background: radial-gradient(circle at 50% 30%, #14213d 0%, #070d1a 55%, #04070f 100%);
-      transition: opacity .8s ease, visibility .8s ease;
+      transition: opacity .6s ease, visibility .6s ease;
     }
     .loader.hidden { opacity: 0; visibility: hidden; }
     .loader h1 {
@@ -116,7 +116,6 @@
       position: relative;
       min-height: 100vh;
       overflow: hidden;
-      perspective: 900px;
       background: #040811;
     }
     .hero-media {
@@ -171,6 +170,7 @@
       font-size: clamp(42px, 6vw, 88px);
       letter-spacing: .08em;
       margin-bottom: 20px;
+      text-shadow: 0 0 80px rgba(201,169,110,.35), 0 0 160px rgba(201,169,110,.15);
     }
     .hero-copy h1 span { color: var(--gold); }
     .hero-copy p {
@@ -214,133 +214,12 @@
       position: relative;
       width: min(1920px, 100%);
       margin: 0 auto;
-      transform-style: preserve-3d;
-      background: linear-gradient(180deg, rgba(7,13,26,.96), rgba(4,8,17,.96));
-    }
-    .image-section::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
-      opacity: .65;
-      z-index: 3;
+      background: var(--bg);
     }
     .image-section img {
       width: 100%;
       height: auto;
-      backface-visibility: hidden;
-      transform-origin: center center;
-      will-change: transform, filter;
-    }
-
-    .section-caption {
-      position: absolute;
-      left: clamp(30px, 5vw, 84px);
-      bottom: clamp(24px, 5vw, 72px);
-      z-index: 4;
-      padding: 18px 22px;
-      border: 1px solid rgba(201,169,110,.3);
-      background: rgba(7,13,26,.52);
-      backdrop-filter: blur(8px);
-      max-width: 620px;
-    }
-    .section-caption h3 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(20px, 2.2vw, 34px);
-      color: var(--gold);
-      margin-bottom: 8px;
-      letter-spacing: .03em;
-    }
-    .section-caption p {
-      font-size: clamp(13px, .95vw, 16px);
-      color: var(--muted);
-      letter-spacing: .05em;
-      line-height: 1.6;
-    }
-
-    /* === Gemini 합성: 빛 반사 스윕 === */
-    .image-section::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 5;
-      pointer-events: none;
-      background: linear-gradient(
-        115deg,
-        transparent 0%,
-        transparent 35%,
-        rgba(201,169,110,.12) 42%,
-        rgba(255,255,255,.08) 45%,
-        rgba(201,169,110,.12) 48%,
-        transparent 55%,
-        transparent 100%
-      );
-      background-size: 300% 100%;
-      background-position: 200% 0;
-      opacity: 0;
-      transition: opacity .4s;
-    }
-    .image-section.in-view::after {
-      opacity: 1;
-      animation: lightSweep 1.8s ease-out forwards;
-    }
-    @keyframes lightSweep {
-      from { background-position: 200% 0; }
-      to { background-position: -100% 0; }
-    }
-
-    /* === Gemini 합성: 시네마틱 비네팅 === */
-    .vignette {
-      position: fixed;
-      inset: 0;
-      z-index: 998;
-      pointer-events: none;
-      background: radial-gradient(
-        ellipse 70% 65% at 50% 50%,
-        transparent 55%,
-        rgba(4,7,15,.55) 100%
-      );
-    }
-
-    /* === Gemini 합성: 골드 글로우 펄스 === */
-    .gold-glow {
-      position: absolute;
-      width: 420px;
-      height: 420px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(201,169,110,.18), transparent 70%);
-      pointer-events: none;
-      z-index: 2;
-      filter: blur(60px);
-      opacity: 0;
-    }
-
-    /* === Gemini 합성: 섹션 리빌 라인 === */
-    .reveal-line {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      z-index: 6;
-      background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
-      transform: scaleX(0);
-      transform-origin: center;
-    }
-    .image-section.in-view .reveal-line {
-      animation: revealLine 1.2s ease-out forwards;
-    }
-    @keyframes revealLine {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
-    }
-
-    /* === 히어로 텍스트 글로우 === */
-    .hero-copy h1 {
-      text-shadow: 0 0 60px rgba(201,169,110,.25);
+      display: block;
     }
 
     footer {
@@ -356,7 +235,6 @@
 <body>
   <div class="pc-only">PC 전용 프레젠테이션 페이지입니다.<br />1200px 이상 해상도에서 확인해 주세요.</div>
 
-  <div class="vignette"></div>
   <div class="loader" id="loader"><h1>ZELL</h1></div>
 
   <nav class="nav" id="nav">
@@ -384,57 +262,15 @@
     <div class="scroll-mark">SCROLL<div class="scroll-line"></div></div>
   </header>
 
-  <section class="image-section fx" data-side="left" data-depth="normal">
-    <div class="reveal-line"></div>
-    <div class="gold-glow"></div>
-    <img src="images/main_hero.jpg" alt="젤피부과 메인 히어로" loading="eager" />
-    <div class="section-caption">
-      <h3>Refined Entry</h3>
-      <p>젤피부과의 시그니처 톤과 공간 브랜딩을 강조하는 메인 도입 섹션</p>
-    </div>
-  </section>
-
-  <section class="image-section fx" data-side="right" data-depth="device">
-    <div class="reveal-line"></div>
-    <div class="gold-glow"></div>
-    <img src="images/main_pinnacle.jpg" alt="젤피부과 pinnacle 장비" loading="lazy" />
-  </section>
-
-  <section class="image-section fx" data-side="bottom" data-depth="normal">
-    <div class="reveal-line"></div>
-    <img src="images/main_programs.jpg" alt="젤피부과 프로그램" loading="lazy" />
-  </section>
-
-  <section class="image-section fx" data-side="left" data-depth="device">
-    <div class="reveal-line"></div>
-    <div class="gold-glow"></div>
-    <img src="images/main_laser.jpg" alt="젤피부과 레이저 장비" loading="lazy" />
-  </section>
-
-  <section class="image-section fx" data-side="right" data-depth="normal">
-    <div class="reveal-line"></div>
-    <img src="images/main_concept.jpg" alt="젤피부과 컨셉" loading="lazy" />
-  </section>
-
-  <section class="image-section fx" data-side="bottom" data-depth="normal">
-    <div class="reveal-line"></div>
-    <img src="images/main_before.jpg" alt="젤피부과 전후 사례" loading="lazy" />
-  </section>
-
-  <section class="image-section fx" data-side="left" data-depth="normal">
-    <div class="reveal-line"></div>
-    <img src="images/main_info.jpg" alt="젤피부과 정보" loading="lazy" />
-  </section>
-
-  <section class="image-section fx" data-side="right" data-depth="normal">
-    <div class="reveal-line"></div>
-    <img src="images/main_map.jpg" alt="젤피부과 위치" loading="lazy" />
-  </section>
-
-  <section class="image-section fx" data-side="bottom" data-depth="normal">
-    <div class="reveal-line"></div>
-    <img src="images/main_footer.jpg" alt="젤피부과 푸터" loading="lazy" />
-  </section>
+  <section class="image-section fx"><img src="images/main_hero.jpg" alt="젤피부과 메인 히어로" /></section>
+  <section class="image-section fx"><img src="images/main_pinnacle.jpg" alt="젤피부과 pinnacle 장비" loading="lazy" /></section>
+  <section class="image-section fx"><img src="images/main_programs.jpg" alt="젤피부과 프로그램" loading="lazy" /></section>
+  <section class="image-section fx"><img src="images/main_laser.jpg" alt="젤피부과 레이저 장비" loading="lazy" /></section>
+  <section class="image-section fx"><img src="images/main_concept.jpg" alt="젤피부과 컨셉" loading="lazy" /></section>
+  <section class="image-section fx"><img src="images/main_before.jpg" alt="젤피부과 전후 사례" loading="lazy" /></section>
+  <section class="image-section fx"><img src="images/main_info.jpg" alt="젤피부과 정보" loading="lazy" /></section>
+  <section class="image-section fx"><img src="images/main_map.jpg" alt="젤피부과 위치" loading="lazy" /></section>
+  <section class="image-section fx"><img src="images/main_footer.jpg" alt="젤피부과 푸터" loading="lazy" /></section>
 
   <footer>© ZELL DERMATOLOGY CLINIC PRESENTATION</footer>
 
@@ -443,11 +279,12 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
+    /* === 로더: 빠르게 사라짐 === */
     window.addEventListener("load", () => {
-      const loader = document.getElementById("loader");
-      gsap.to(loader, { autoAlpha: 0, duration: 0.85, ease: "power2.out", delay: 0.9 });
+      gsap.to("#loader", { autoAlpha: 0, duration: 0.6, ease: "power2.out", delay: 0.4 });
     });
 
+    /* === 히어로: 파티클 생성 === */
     const particleWrap = document.getElementById("particles");
     for (let i = 0; i < 48; i++) {
       const dot = document.createElement("span");
@@ -462,135 +299,48 @@
       particleWrap.appendChild(dot);
     }
 
+    /* === 히어로: 배경 느린 줌 + 패럴랙스 === */
     const heroMedia = document.getElementById("heroMedia");
     gsap.to(heroMedia, {
-      scale: 1.19,
-      xPercent: -2,
-      yPercent: -2,
-      duration: 17,
+      scale: 1.15,
+      duration: 20,
       ease: "sine.inOut",
       repeat: -1,
       yoyo: true
     });
-
     gsap.to(heroMedia, {
-      y: 140,
+      y: 120,
       ease: "none",
-      scrollTrigger: {
-        trigger: "#hero",
-        start: "top top",
-        end: "bottom top",
-        scrub: true
-      }
+      scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
     });
 
-    gsap.from(".hero-copy h1", { y: 90, opacity: 0, duration: 1.2, delay: 0.65, ease: "power3.out" });
-    gsap.from(".hero-copy p", { y: 48, opacity: 0, duration: 1.1, delay: 0.9, ease: "power3.out" });
+    /* === 히어로: 텍스트 등장 + 글로우 펄스 === */
+    gsap.from(".hero-copy h1", { y: 60, opacity: 0, duration: 1.4, delay: 0.5, ease: "power3.out" });
+    gsap.from(".hero-copy p", { y: 30, opacity: 0, duration: 1.2, delay: 0.8, ease: "power3.out" });
+    gsap.to(".hero-copy h1", {
+      textShadow: "0 0 120px rgba(201,169,110,.5), 0 0 240px rgba(201,169,110,.2)",
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
 
-    const fxSections = gsap.utils.toArray(".fx");
-    fxSections.forEach((section, i) => {
-      const side = section.dataset.side;
-      const depth = section.dataset.depth;
-      const img = section.querySelector("img");
-
-      const fromVars = {
-        opacity: 0,
-        scale: 0.86,
-        rotate: side === "bottom" ? -4 : side === "left" ? -8 : 8,
-        y: side === "bottom" ? 180 : 0,
-        x: side === "left" ? -220 : side === "right" ? 220 : 0
-      };
-
-      if (depth === "device") {
-        fromVars.rotateY = side === "left" ? -24 : 24;
-        fromVars.rotateX = 10;
-        fromVars.z = -120;
-        gsap.to(img, {
-          rotateY: side === "left" ? 8 : -8,
-          rotateX: 2,
-          repeat: -1,
-          yoyo: true,
-          duration: 2.8,
-          ease: "sine.inOut"
-        });
-      }
-
-      gsap.fromTo(section, fromVars, {
-        opacity: 1,
-        x: 0,
-        y: 0,
-        z: 0,
-        rotate: 0,
-        rotateY: 0,
-        rotateX: 0,
-        scale: 1,
-        filter: "blur(0px)",
-        duration: 1.35,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 82%",
-          end: "top 28%",
-          toggleActions: "play none none reverse"
-        }
-      });
-
-      gsap.fromTo(img,
-        { scale: 1.08, filter: "brightness(.8)" },
+    /* === 이미지 섹션: 단순 페이드업 (깨짐 없음) === */
+    gsap.utils.toArray(".fx").forEach(section => {
+      gsap.fromTo(section,
+        { opacity: 0, y: 60 },
         {
-          scale: 1,
-          filter: "brightness(1)",
-          ease: "none",
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: section,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true
+            start: "top 85%",
+            toggleActions: "play none none none"
           }
         }
       );
-
-      if (i % 2 === 0) {
-        gsap.to(section, {
-          y: -44,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true
-          }
-        });
-      }
-    });
-
-    /* === Gemini 합성: in-view 클래스로 빛 스윕 + 리빌 라인 트리거 === */
-    fxSections.forEach(section => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top 80%",
-        onEnter: () => section.classList.add("in-view"),
-        onLeaveBack: () => section.classList.remove("in-view")
-      });
-    });
-
-    /* === Gemini 합성: 골드 글로우 부유 애니메이션 === */
-    document.querySelectorAll(".gold-glow").forEach((glow, i) => {
-      gsap.set(glow, {
-        left: i % 2 === 0 ? "15%" : "65%",
-        top: "30%"
-      });
-      gsap.to(glow, {
-        opacity: 0.7,
-        scale: 1.3,
-        x: gsap.utils.random(-60, 60),
-        y: gsap.utils.random(-40, 40),
-        duration: gsap.utils.random(4, 7),
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: i * 0.8
-      });
     });
 
     /* === 네비게이션 스크롤 숨김 === */

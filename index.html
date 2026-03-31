@@ -241,6 +241,8 @@
       position: relative;
       width: min(1920px, 100%);
       margin: 0 auto;
+      perspective: 1200px;
+      overflow: hidden;
     }
     .image-section img {
       width: 100%;
@@ -389,29 +391,32 @@
     });
 
     /* ===========================
-       2. 이미지 섹션: 좌/우 교대 슬라이드 + 로테이션 → 정적 고정
+       2. 이미지 섹션: 좌/우 교대 3D 로테이션 → 정적 고정
        =========================== */
     gsap.utils.toArray(".fx").forEach((section, i) => {
+      const img = section.querySelector("img");
       const fromLeft = i % 2 === 0;
 
-      gsap.fromTo(section,
+      // 이미지에 3D rotateY 적용 (깨짐 없는 원근감 틸트)
+      gsap.fromTo(img,
         {
           opacity: 0,
-          x: fromLeft ? -200 : 200,
-          rotate: fromLeft ? -6 : 6
+          rotateY: fromLeft ? -45 : 45,
+          x: fromLeft ? -80 : 80,
+          transformOrigin: fromLeft ? "left center" : "right center"
         },
         {
           opacity: 1,
+          rotateY: 0,
           x: 0,
-          rotate: 0,
           duration: 1.4,
           ease: "power4.out",
           scrollTrigger: {
             trigger: section,
-            start: "top 88%",
+            start: "top 85%",
             toggleActions: "play none none none"
           },
-          onComplete: () => gsap.set(section, { clearProps: "all" })
+          onComplete: () => gsap.set(img, { clearProps: "all" })
         }
       );
     });

@@ -259,19 +259,17 @@
     /* ===========================
        이미지 섹션: 통째로 좌→우 슬라이드 등장 → 정적 고정
        =========================== */
-    gsap.utils.toArray(".static-section").forEach((section, i) => {
-      const fromLeft = i % 2 === 0;
-
+    gsap.utils.toArray(".static-section").forEach((section) => {
       gsap.fromTo(section,
-        { x: fromLeft ? -300 : 300, opacity: 0 },
+        { x: -500, opacity: 0 },
         {
           x: 0,
           opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
+          duration: 1.5,
+          ease: "power4.out",
           scrollTrigger: {
             trigger: section,
-            start: "top 88%",
+            start: "top 90%",
             toggleActions: "play none none none"
           },
           onComplete: () => gsap.set(section, { clearProps: "all" })

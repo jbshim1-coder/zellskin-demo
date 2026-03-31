@@ -237,18 +237,16 @@
       50% { transform: translateX(8px) skewX(1.5deg); }
     }
 
-    /* === 이미지 섹션: 패럴랙스 + 리빌 === */
+    /* === 이미지 섹션 === */
     .image-section {
       position: relative;
       width: min(1920px, 100%);
       margin: 0 auto;
-      overflow: hidden;
     }
     .image-section img {
       width: 100%;
       height: auto;
       display: block;
-      will-change: transform;
     }
 
     footer {
@@ -305,7 +303,6 @@
     </div>
   </header>
 
-  <section class="image-section fx"><img src="images/main_hero.jpg" alt="젤피부과 메인 히어로" /></section>
   <section class="image-section fx"><img src="images/main_pinnacle.jpg" alt="젤피부과 pinnacle 장비" loading="lazy" /></section>
   <section class="image-section fx"><img src="images/main_programs.jpg" alt="젤피부과 프로그램" loading="lazy" /></section>
   <section class="image-section fx"><img src="images/main_laser.jpg" alt="젤피부과 레이저 장비" loading="lazy" /></section>
@@ -330,8 +327,8 @@
     // 로더 페이드아웃
     tl.to("#loader", { autoAlpha: 0, duration: 0.5, ease: "power2.out", delay: 0.3 });
 
-    // 히어로 이미지: 약간 줌인 상태에서 시작
-    tl.from("#hero img", { scale: 1.08, duration: 2.5, ease: "power2.out" }, 0.6);
+    // 히어로 이미지: 강한 줌인에서 시작 → 원래 크기로
+    tl.from("#hero img", { scale: 1.15, opacity: 0.7, duration: 3, ease: "power2.out" }, 0.6);
 
     // 인트로 텍스트 등장
     tl.to("#introTitle", {
@@ -390,37 +387,27 @@
     });
 
     /* ===========================
-       2. 이미지 섹션: 패럴랙스 + 부드러운 리빌
+       2. 이미지 섹션: 좌/우 슬라이드 + 패럴랙스
        =========================== */
     gsap.utils.toArray(".fx").forEach((section, i) => {
       const img = section.querySelector("img");
+      const fromLeft = i % 2 === 0;
 
-      // 섹션 등장: 부드러운 페이드 + 약간의 좌우 로테이션
-      const rotateDir = i % 2 === 0 ? -1.5 : 1.5;
+      // 섹션 등장: 좌/우 교대로 슬라이드인 + 페이드 (회전 없음 = 깨짐 없음)
       gsap.fromTo(section,
-        { opacity: 0, y: 40, rotate: rotateDir },
         {
-          opacity: 1, y: 0, rotate: 0,
-          duration: 1.2, ease: "power3.out",
+          opacity: 0,
+          x: fromLeft ? -100 : 100
+        },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 1.2,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: section,
-            start: "top 90%",
+            start: "top 88%",
             toggleActions: "play none none none"
-          }
-        }
-      );
-
-      // 이미지 패럴랙스: 스크롤에 따라 이미지가 천천히 이동 (깨짐 없음)
-      gsap.fromTo(img,
-        { yPercent: -3 },
-        {
-          yPercent: 3,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true
           }
         }
       );
